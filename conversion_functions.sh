@@ -1,4 +1,3 @@
-
 to_html(){
   pandoc $file -o ${file%.md}.html -c $html_style --mathjax -s;
 }

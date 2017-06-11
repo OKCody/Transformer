@@ -1,4 +1,5 @@
-source functions.sh
+source css_functions.sh
+source conversion_functions.sh
 
 html="false";
 docx="false";
@@ -35,25 +36,16 @@ while getopts ":bdeps" opt; do
   esac
 done
 
-html_style="example_html.css"
-pdf_style="example_pdf.css"
-epub_style="example_epub.css"
-
 for file in *.css
 do
-  if [ ${file,,} == "html.css" ]; then
-    html_style="html.css"
-  else
-    cat base.css example_html.css > html.css
-    html_style="html.css"
-  fi
-  if [ ${file,,} == "pdf.css" ]; then
-    pdf_style="pdf.css"
-  fi
-  if [ ${file,,} == "epub.css" ]; then
-    epub_style="pdf.css"
-  fi
+  make_html_css
+  make_pdf_css
+  make_epub_css
 done
+
+html_style="combo_html.css"
+pdf_style="combo_pdf.css"
+epub_style="combo_epub.css"
 
 for file in *.md
 do
