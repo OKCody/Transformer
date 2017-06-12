@@ -20,3 +20,9 @@ to_epub(){
 to_docx(){
     pandoc $file -o ${file%.md}.docx;
 }
+
+# ensure generated file actuall exists (-e) and is of non-zero size (-s)
+test_file(){
+  test_file=$1
+  if [ -e $test_file ] && [ -s $test_file ]; then printf " ✓\n"; else printf " ✗\n"; fi
+}

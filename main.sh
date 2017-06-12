@@ -27,11 +27,11 @@ EOF
 while getopts ":bdeps" opt; do
   case $opt in
 
-  b ) echo "generating HTML..."; html="true";;
-  d ) echo "generating DOCX..."; docx="true";;
-  e ) echo "generating EPUB..."; epub="true";;
-  p ) echo "generating  PDF...";  pdf="true";;
-  s ) echo "generating Site..."; site="true";;
+  b ) html="true";;
+  d ) docx="true";;
+  e ) epub="true";;
+  p ) pdf="true";;
+  s ) site="true";;
   \? ) usage ;;
   esac
 done
@@ -49,20 +49,25 @@ epub_style="combo_epub.css"
 
 for file in *.md
 do
+  echo $file
   if [ $html == "true" ]; then
+    printf "  --> ${file%md}html"
     to_html
-    echo $file "--> ${file%md}html"
+    test_file "${file%md}html"
   fi
   if [ $pdf == "true" ]; then
+    printf "  --> ${file%md}pdf"
     to_pdf
-    echo $file "--> ${file%md}pdf"
+    test_file "${file%md}pdf"
   fi
   if [ $epub == "true" ]; then
+    printf "  --> ${file%md}epub"
     to_epub
-    echo $file "--> ${file%md}epub"
+    test_file "${file%md}epub"
   fi
   if [ $docx == "true" ]; then
-    to_docx
-    echo $file "--> ${file%md}docx"
+    printf "  --> ${file%md}docx"
+    #to_docx
+    test_file "${file%md}docx"
   fi
 done
