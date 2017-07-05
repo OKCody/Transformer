@@ -35,28 +35,59 @@ while getopts ":bdeps" opt; do
   \? ) usage;;
   esac
 done
-shift "$((OPTIND-1))" #perhaps not necessary
-OPTIND=1              #perhaps not necessary
+shift "$((OPTIND-1))" # perhaps not necessary
+OPTIND=1              # perhaps not necessary
 
-markdown=$@ #space-separated list of Markdown filenames to operate on
+md_file=""    # empty list for appending markdown files
+css_file=""   # empty list for appending stylesheet files
+errors=0      # count number of errors encountered
 
-for css_file in *.css; do
-  make_html_css
-  make_pdf_css
-  make_epub_css
+# Accept .md/.MD and .css/.CSS file paths as arguments, separate into respective
+# lists of files. Throw errors accordingly.
+for file in $@; do
+  check_file
+  if [ "${type:0:4}" != "text" ]; then
+    printf "ERROR: $file is empty or not of type 'text'.\n"
+    errors+=1
+  else
+    if [ "${file: -3}" == ".md" ] || [ "${file: -3}" == ".MD" ]; then
+      markdown_files+=" ${file:0:-3}.md"
+    else
+      if [ "${file: -4}" == ".css" ] || [ "${file: -4}" == ".CSS" ]; then
+        stylesheet_files+=" ${file:0:-4}.css"
+      else
+        printf "ERROR: $file is not a supported file type.\n"
+        printf "       Only '.md/.MD' and '.css/.CSS' files are supported.\n"
+        printf "       File names should not contain spaces.\n"
+        errors+=1
+      fi
+    fi
+  fi
 done
 
-html_style="combo_html.css"
-pdf_style="combo_pdf.css"
-epub_style="combo_epub.css"
+# If no errors exist, proceed
+if [ $errors -gt 0 ]; then    # WEIRD... > is not recognized. Must use -gt instead. -_-
+  echo "Errors exist. Use '-h' for help."
+else
 
-for md_file in $markdown; do
-  # Only operate on text files with ".md" extension
-  check_file
-  if [ "$type" != "text/plain" ] || [ "${md_file: -3}" != ".md" ]; then
-    printf "ERROR: $md_file not of type 'text/plain' or lacks '.md' extension\n"
-  else
-    # Perform conversions
+  # Lists files to be operated on
+  echo ""
+  echo " MD: "$markdown_files
+  echo "CSS: "$stylesheet_files
+  echo ""
+
+  # Prepare format-specific stylesheets
+  for css_file in $stylesheet_files; do
+    make_html_css
+    make_pdf_css
+    make_epub_css
+  done
+
+  html_style="combo_html.css"
+  pdf_style="combo_pdf.css"
+  epub_style="combo_epub.css"
+
+  for md_file in $markdown_files; do
     echo $md_file
     if [ $html == "true" ]; then
       printf "  --> ${md_file%md}html"
@@ -78,5 +109,5 @@ for md_file in $markdown; do
       to_docx
       test_file "${md_file%md}docx"
     fi
-  fi
-done
+  done
+fi
