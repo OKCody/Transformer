@@ -1,8 +1,9 @@
-source general_functions.sh
-source css_functions.sh
-source conversion_functions.sh
+source config.sh                 # Contains paths to dependent files
+source general_functions.sh      # Contains operational functions
+source css_functions.sh          # Contains CSS-specific functions
+source conversion_functions.sh   # Contains Pandoc and Pandoc-related functions
 
-html="false";
+html="false";  # Initialize output format switches
 docx="false";
 epub="false";
  pdf="false";
@@ -27,7 +28,7 @@ EOF
 
 while getopts ":bdeps" opt; do
   case $opt in
-  b ) html="true";;
+  b ) html="true";;   # Select output format switches
   d ) docx="true";;
   e ) epub="true";;
   p ) pdf="true";;
@@ -66,7 +67,7 @@ for file in $@; do
 done
 
 # If no errors exist, proceed
-if [ $errors -gt 0 ]; then    # WEIRD... > is not recognized. Must use -gt instead. -_-
+if [ $errors -gt 0 ]; then    # Bash has a weird way of performing ">"
   echo "Errors exist. Use '-h' for help."
 else
 
@@ -76,7 +77,7 @@ else
   echo "CSS: "$stylesheet_files
   echo ""
 
-  # Prepare format-specific stylesheets
+  # Prepare format-specific stylesheets, make_*() are in css_functions.sh
   for css_file in $stylesheet_files; do
     make_html_css
     make_pdf_css
@@ -87,6 +88,7 @@ else
   pdf_style="combo_pdf.css"
   epub_style="combo_epub.css"
 
+  # Perform Markdown conversions, to_*() are in conversion_functions.sh
   for md_file in $markdown_files; do
     echo $md_file
     if [ $html == "true" ]; then
