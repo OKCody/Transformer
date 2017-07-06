@@ -1,7 +1,7 @@
-source config.sh                 # Contains paths to dependent files
-source general_functions.sh      # Contains operational functions
-source css_functions.sh          # Contains CSS-specific functions
-source conversion_functions.sh   # Contains Pandoc and Pandoc-related functions
+source functions/config.sh                 # Contains paths to dependent files
+source functions/general_functions.sh      # Contains operational functions
+source functions/css_functions.sh          # Contains CSS-specific functions
+source functions/conversion_functions.sh   # Contains Pandoc and Pandoc-related functions
 
 html="false";  # Initialize output format switches
 docx="false";
@@ -67,7 +67,7 @@ for file in $@; do
 done
 
 # If no errors exist, proceed
-if [ $errors -gt 0 ]; then    # Bash has a weird way of performing ">"
+if [ $errors -gt 0 ]; then    # BASH has a weird way of performing ">"
   echo "Errors exist. Use '-h' for help."
 else
 
@@ -77,16 +77,15 @@ else
   echo "CSS: "$stylesheet_files
   echo ""
 
+  # Create directory in which to store resultant files
+  create_output_dir
+
   # Prepare format-specific stylesheets, make_*() are in css_functions.sh
   for css_file in $stylesheet_files; do
     make_html_css
     make_pdf_css
     make_epub_css
   done
-
-  html_style="combo_html.css"
-  pdf_style="combo_pdf.css"
-  epub_style="combo_epub.css"
 
   # Perform Markdown conversions, to_*() are in conversion_functions.sh
   for md_file in $markdown_files; do
