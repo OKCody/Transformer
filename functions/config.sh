@@ -29,3 +29,12 @@ base_pdf="stylesheets/base_pdf.css"
 # $base_epub contains margins, break rules, and other important, epub-specific
 # attributes.
 base_epub="stylesheets/base_epub.css"
+
+# $mathjax contains the path to mathjax as this tool should not depend on a CDN.
+# Mathjax is included as a Git "submodule". When this tool's Git repository is
+# cloned, the Mathjax submodule directory will be created, but empty. To get the
+# latest version of Mathjax,
+#   $ git submodule init
+#   $ git submodule update
+mathjax="MathJax/MathJax.js?config=TeX-AMS_HTML"
+# ?config=TeX-AMS-MML_HTMLorMML
