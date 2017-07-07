@@ -46,7 +46,7 @@ errors=0      # count number of errors encountered
 # Accept .md/.MD and .css/.CSS file paths as arguments, separate into respective
 # lists of files. Throw errors accordingly.
 for file in $@; do
-  check_file
+  type=$(file -b --mime-type $file)
   if [ "${type:0:4}" != "text" ]; then
     printf "ERROR: $file is empty or not of type 'text'.\n"
     errors+=1
@@ -92,22 +92,22 @@ else
     echo $md_file
     if [ $html == "true" ]; then
       printf "  --> ${md_file%md}html"
-      to_html
+      to_html & spinner
       test_file "${md_file%md}html"
     fi
     if [ $pdf == "true" ]; then
       printf "  --> ${md_file%md}pdf"
-      to_pdf
+      to_pdf & spinner
       test_file "${md_file%md}pdf"
     fi
     if [ $epub == "true" ]; then
       printf "  --> ${md_file%md}epub"
-      to_epub
+      to_epub & spinner
       test_file "${md_file%md}epub"
     fi
     if [ $docx == "true" ]; then
       printf "  --> ${md_file%md}docx"
-      to_docx
+      to_docx & spinner
       test_file "${md_file%md}docx"
     fi
   done
