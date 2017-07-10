@@ -1,3 +1,7 @@
+# Path to dependent files
+location=~/Desktop/Ideal_Textbook_Tool
+location=$(eval echo $location)
+
 # Path to put output files
 output=$(pwd)
 
@@ -13,22 +17,22 @@ output=$(pwd)
 
 # $base is the most basic stylesheet. Contains normalize.css and skeleton.css
 # getskeleton.com or https://github.com/dhg/Skeleton
-base="stylesheets/base.css"
+base="$location/stylesheets/base.css"
 
 # $example contains default colors, fonts, and other superficial attributes.
-example="stylesheets/example.css"
+example="$location/stylesheets/example.css"
 
 # $base_html contains margins, break rules, and other important, html-specific
 # attributes.
-base_html="stylesheets/base_html.css"
+base_html="$location/stylesheets/base_html.css"
 
 # $base_pdf contains margins, break rules, and other important, pdf-specific
 # attributes.
-base_pdf="stylesheets/base_pdf.css"
+base_pdf="$location/stylesheets/base_pdf.css"
 
 # $base_epub contains margins, break rules, and other important, epub-specific
 # attributes.
-base_epub="stylesheets/base_epub.css"
+base_epub="$location/stylesheets/base_epub.css"
 
 # $mathjax contains the path to mathjax as this tool should not depend on a CDN.
 # Mathjax is included as a Git "submodule". When this tool's Git repository is
@@ -36,5 +40,5 @@ base_epub="stylesheets/base_epub.css"
 # latest version of Mathjax,
 #   $ git submodule init
 #   $ git submodule update
-mathjax="MathJax/MathJax.js?config=TeX-AMS_HTML"
+mathjax="$location/MathJax/MathJax.js?config=TeX-AMS_HTML"
 # ?config=TeX-AMS-MML_HTMLorMML
