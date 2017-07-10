@@ -1,5 +1,6 @@
 # Path to dependent files
-location="~/Desktop/Ideal_Textbook_Tool"
+location=~/Desktop/Ideal_Textbook_Tool
+location=$(eval echo $location)
 
 source ~/Desktop/Ideal_Textbook_Tool/functions/config.sh                 # Contains paths to dependent files
 source ~/Desktop/Ideal_Textbook_Tool/functions/general_functions.sh      # Contains operational functions
@@ -7,6 +8,10 @@ source ~/Desktop/Ideal_Textbook_Tool/functions/css_functions.sh          # Conta
 source ~/Desktop/Ideal_Textbook_Tool/functions/conversion_functions.sh   # Contains Pandoc and Pandoc-related functions
 
 echo $base
+echo $base_html
+echo $base_pdf
+echo $base_epub
+echo $example
 
 html="false";  # Initialize output format switches
 docx="false";
@@ -85,6 +90,10 @@ else
   # Create directory in which to store resultant files
   create_output_dir
 
+  # Create default stylesheets. If any CSS provided in arguments,
+  make_default_css
+
+
   # Prepare format-specific stylesheets, make_*() are in css_functions.sh
   for css_file in $stylesheet_files; do
     make_html_css
@@ -94,26 +103,28 @@ else
 
   # Perform Markdown conversions, to_*() are in conversion_functions.sh
   for md_file in $markdown_files; do
-    echo $md_file
+    out_file=${md_file##*/}
+    printf " In: $md_file\n"
+    printf "Out: $output/${out_file%md}*\n"
     if [ $html == "true" ]; then
-      printf "  --> ${md_file%md}html"
+      printf "  --> ${out_file%md}html"
       to_html & spinner
-      test_file "${md_file%md}html"
+      test_file "${out_file%md}html"
     fi
     if [ $pdf == "true" ]; then
-      printf "  --> ${md_file%md}pdf"
+      printf "  --> ${out_file%md}pdf"
       to_pdf & spinner
-      test_file "${md_file%md}pdf"
+      test_file "${out_file%md}pdf"
     fi
     if [ $epub == "true" ]; then
-      printf "  --> ${md_file%md}epub"
+      printf "  --> ${out_file%md}epub"
       to_epub & spinner
-      test_file "${md_file%md}epub"
+      test_file "${out_file%md}epub"
     fi
     if [ $docx == "true" ]; then
-      printf "  --> ${md_file%md}docx"
+      printf "  --> ${out_file%md}docx"
       to_docx & spinner
-      test_file "${md_file%md}docx"
+      test_file "${out_file%md}docx"
     fi
   done
 fi

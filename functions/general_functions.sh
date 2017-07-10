@@ -1,7 +1,7 @@
 # Create output directory in the directory from where this script was executed
 create_output_dir(){
   output="$output/output"
-  echo $ouput
+  echo $output
   mkdir -p $output        # make directory only if it does not already exist
 }
 

@@ -1,7 +1,3 @@
-# Path to dependent files
-location=~/Desktop/Ideal_Textbook_Tool
-location=$(eval echo $location)
-
 # Path to put output files
 output=$(pwd)
 
