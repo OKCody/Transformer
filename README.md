@@ -85,7 +85,7 @@ Finally, temp.html is deleted as it is only inteded to be use intermediarily.
 
 ## Output
 
-All generated files will be written to "output/". Note that file types that reference images will, of course, require vaild paths to those images.
+All generated files will be written to "output/". Note that file types that reference images will, of course, require vaild paths to those images likely requiring "images/" and its contents to be moved into "output/".
 
 ### Example Ouput File Structure
 
