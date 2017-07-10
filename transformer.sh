@@ -1,17 +1,12 @@
 # Path to dependent files
-location=~/Desktop/Ideal_Textbook_Tool
+location="~/Desktop/Ideal_Textbook_Tool"
+
 location=$(eval echo $location)
 
-source ~/Desktop/Ideal_Textbook_Tool/functions/config.sh                 # Contains paths to dependent files
-source ~/Desktop/Ideal_Textbook_Tool/functions/general_functions.sh      # Contains operational functions
-source ~/Desktop/Ideal_Textbook_Tool/functions/css_functions.sh          # Contains CSS-specific functions
-source ~/Desktop/Ideal_Textbook_Tool/functions/conversion_functions.sh   # Contains Pandoc and Pandoc-related functions
-
-echo $base
-echo $base_html
-echo $base_pdf
-echo $base_epub
-echo $example
+source $location/functions/config.sh                 # Contains paths to dependent files
+source $location/functions/general_functions.sh      # Contains operational functions
+source $location/functions/css_functions.sh          # Contains CSS-specific functions
+source $location/functions/conversion_functions.sh   # Contains Pandoc and Pandoc-related functions
 
 html="false";  # Initialize output format switches
 docx="false";
