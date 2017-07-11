@@ -131,4 +131,4 @@ example_book/
 
 - [wkhtmltopdf](https://wkhtmltopdf.org/) `$ brew install wkhtmltopdf` or `$ apt-get install wkhtmltopdf`
 
-- [xvfb](https://www.x.org/archive/X11R7.7/doc/man/man1/Xvfb.1.xhtml) `$ apt-get install wvfb`
+- [xvfb](https://www.x.org/archive/X11R7.7/doc/man/man1/Xvfb.1.xhtml) `$ apt-get install xvfb`
