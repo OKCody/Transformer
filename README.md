@@ -77,7 +77,7 @@ pandoc $md_file -o $output/temp.html -c $pdf_style --mathjax="../$mathjax" -s
 ```
 [wkhtmltopdf](https://wkhtmltopdf.org/) is being used to generate PDFs. Markdown files are first converted to HTML (temp.html) as an intermediary step prior to being passed to wkhtmltopdf. In this step Mathjax is used to render any equations prior to generating a PDF. Importantly, the wkhtmltopdf option "--javascript-delay 2000" provides MathJax 2000ms to render equations prior to generating a PDF of temp.html. Also worth mentioning is what appears to be a bug in wkhtmltopdf with regard to how it handles the letter-spacing CSS attribute. Any other value seems to be exaggerated when processed with wkhtmltopdf and generates unintended results. In order to porevent this from happening, "--run-script" is used to execute a tiny bit of Javascript to set letter-spacing to 0px for all elements that might contain a non-zero value. 
 
-wkhtmltopdf requires a frame buffer when running on Ubuntu. For this, xv-fb is used. Becasue this is the only difference between using this wrapper on OSX, a check is performed to determine whether or not xvfb is necessary.
+wkhtmltopdf requires a frame buffer when running on Ubuntu. For this, [xvfb](https://www.x.org/archive/X11R7.7/doc/man/man1/Xvfb.1.xhtml) is used. Becasue this is the only difference between using this wrapper on OSX, a check is performed to determine whether or not xvfb is necessary.
 
 Finally, temp.html is deleted as it is only inteded to be use intermediarily. 
 
@@ -122,3 +122,13 @@ example_book/
 │   │   pdf.css
 │   │   general.css
 ```
+
+## Dependencies
+
+- [Pandoc](https://pandoc.org) `$ brew install pandoc` or `$ apt-get install pandoc`
+
+**Soon to be replaced by [Chrome 59](https://developers.google.com/web/updates/2017/04/headless-chrome).**
+
+- [wkhtmltopdf](https://wkhtmltopdf.org/) `$ brew install wkhtmltopdf` or `$ apt-get install wkhtmltopdf`
+
+- [xvfb](https://www.x.org/archive/X11R7.7/doc/man/man1/Xvfb.1.xhtml) `$ apt-get install wvfb`
