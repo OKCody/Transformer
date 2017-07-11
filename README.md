@@ -127,7 +127,7 @@ example_book/
 
 - [Pandoc](https://pandoc.org) `$ brew install pandoc` or `$ apt-get install pandoc`
 
-**Soon to be replaced by [Chrome 59](https://developers.google.com/web/updates/2017/04/headless-chrome).**
+**Soon to be replaced by [Chrome 59](https://developers.google.com/web/updates/2017/04/headless-chrome):**
 
 - [wkhtmltopdf](https://wkhtmltopdf.org/) `$ brew install wkhtmltopdf` or `$ apt-get install wkhtmltopdf`
 
