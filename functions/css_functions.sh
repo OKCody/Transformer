@@ -1,15 +1,3 @@
-make_default_css(){
-  cat $base $base_html $example > $output/html.css
-  html_style="$output/html.css"
-  echo $html_style
-  cat $base $base_pdf $example > $output/pdf.css
-  pdf_style="$output/pdf.css"
-  echo $pdf_style
-  cat $base $base_epub $example > $output/epub.css
-  epub_style="$output/epub.css"
-  echo $epub_style
-}
-
 make_html_css(){
   if [ ${css_file,,} == "html.css" ]; then
     mv html.css custom_html.css

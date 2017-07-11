@@ -1,18 +1,16 @@
-# Path to dependent files
-location="~/Desktop/Ideal_Textbook_Tool"
-
-location=$(eval echo $location)
+# Path to directory containing "functions/", "MathJax/", and "stylesheets/"
+location="/Users/ . . . / . . . /transformer"
 
 source $location/functions/config.sh                 # Contains paths to dependent files
 source $location/functions/general_functions.sh      # Contains operational functions
 source $location/functions/css_functions.sh          # Contains CSS-specific functions
 source $location/functions/conversion_functions.sh   # Contains Pandoc and Pandoc-related functions
 
-html="false";  # Initialize output format switches
-docx="false";
-epub="false";
- pdf="false";
-site="false";
+html=false;  # Initialize output format switches
+docx=false;
+epub=false;
+ pdf=false;
+site=false;
 
 function usage () {
   cat << EOF
@@ -31,13 +29,26 @@ EOF
   exit 0
 }
 
+# Create directory in which to store resultant files
+create_output_dir
+
+# Select output format switches and generate css for each selected
 while getopts ":bdeps" opt; do
   case $opt in
-  b ) html="true";;   # Select output format switches
-  d ) docx="true";;
-  e ) epub="true";;
-  p ) pdf="true";;
-  s ) site="true";;
+  b ) html=true
+      cat $base $base_html $example > $output/html.css
+      html_style="$output/html.css"
+      ;;
+  d ) docx=true;;
+  e ) epub=true
+      cat $base $base_epub $example > $output/epub.css
+      epub_style="$output/epub.css"
+      ;;
+  p ) pdf=true
+      cat $base $base_pdf $example > $output/pdf.css
+      pdf_style="$output/pdf.css"
+      ;;
+  s ) site=true;;
   \? ) usage;;
   esac
 done
@@ -82,13 +93,6 @@ else
   echo "CSS: "$stylesheet_files
   echo ""
 
-  # Create directory in which to store resultant files
-  create_output_dir
-
-  # Create default stylesheets. If any CSS provided in arguments,
-  make_default_css
-
-
   # Prepare format-specific stylesheets, make_*() are in css_functions.sh
   for css_file in $stylesheet_files; do
     make_html_css
@@ -99,24 +103,23 @@ else
   # Perform Markdown conversions, to_*() are in conversion_functions.sh
   for md_file in $markdown_files; do
     out_file=${md_file##*/}
-    printf " In: $md_file\n"
-    printf "Out: $output/${out_file%md}*\n"
-    if [ $html == "true" ]; then
+    printf "$md_file\n"
+    if [ $html ]; then
       printf "  --> ${out_file%md}html"
       to_html & spinner
       test_file "${out_file%md}html"
     fi
-    if [ $pdf == "true" ]; then
+    if [ $pdf ]; then
       printf "  --> ${out_file%md}pdf"
       to_pdf & spinner
       test_file "${out_file%md}pdf"
     fi
-    if [ $epub == "true" ]; then
+    if [ $epub ]; then
       printf "  --> ${out_file%md}epub"
       to_epub & spinner
       test_file "${out_file%md}epub"
     fi
-    if [ $docx == "true" ]; then
+    if [ $docx ]; then
       printf "  --> ${out_file%md}docx"
       to_docx & spinner
       test_file "${out_file%md}docx"
